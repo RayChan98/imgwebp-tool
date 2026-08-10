@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>二合一技术验证：Compress → WebP</title>
+<style>
+  body { font-family: system-ui, sans-serif; max-width: 720px; margin: 40px auto; padding: 0 20px; }
+  .drop { border: 2px dashed #999; border-radius: 12px; padding: 40px; text-align: center; cursor: pointer; }
+  .drop.drag { border-color: #3b82f6; background: #eff6ff; }
+  img { max-width: 200px; border-radius: 8px; }
+  table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+  td, th { border: 1px solid #ddd; padding: 8px; text-align: left; font-size: 14px; }
+</style>
+</head>
+<body>
+<h1>技术验证：图片压缩 → WebP 二合一（纯浏览器）</h1>
+<div class="drop" id="drop">拖图片进来，或点击选择<br><small>验证：canvas.toBlob(webp) + 压缩重绘是否纯本地可用</small></div>
+<input type="file" id="file" accept="image/*" multiple hidden>
+<div id="results"></div>
+
+<script>
+const drop = document.getElementById('drop');
+const fileInput = document.getElementById('file');
+const results = document.getElementById('results');
+
+drop.onclick = () => fileInput.click();
+drop.ondragover = e => { e.preventDefault(); drop.classList.add('drag'); };
+drop.ondragleave = () => drop.classList.remove('drag');
+drop.ondrop = e => {
+  e.preventDefault(); drop.classList.remove('drag');
+  handleFiles(e.dataTransfer.files);
+};
+fileInput.onchange = e => handleFiles(e.target.files);
+
+async function handleFiles(files) {
+  results.innerHTML = '';
+  for (const file of files) {
+    if (!file.type.startsWith('image/')) continue;
+    const row = await processImage(file);
+    results.innerHTML += row;
+  }
+}
+
+async function processImage(file) {
+  const origSize = file.size;
+  const origKB = (origSize / 1024).toFixed(1);
+
+  // 1) 读取图片
+  const bitmap = await createImageBitmap(file);
+  const { width, height } = bitmap;
+
+  // 2) 压缩重绘（JPEG 质量 0.7）
+  const c1 = document.createElement('canvas');
+  c1.width = width; c1.height = height;
+  const ctx1 = c1.getContext('2d');
+  ctx1.drawImage(bitmap, 0, 0);
+  const compressed = await new Promise(res => c1.toBlob(res, 'image/jpeg', 0.7));
+  const compKB = (compressed.size / 1024).toFixed(1);
+
+  // 3) 转 WebP（质量 0.75）
+  const c2 = document.createElement('canvas');
+  c2.width = width; c2.height = height;
+  const ctx2 = c2.getContext('2d');
+  ctx2.drawImage(bitmap, 0, 0);
+  const webp = await new Promise(res => c2.toBlob(res, 'image/webp', 0.75));
+  const webpKB = (webp.size / 1024).toFixed(1);
+
+  // 4) 二合一：压缩后再转 WebP（用 compressed blob 再解码转 webp）
+  const compressedBitmap = await createImageBitmap(compressed);
+  const c3 = document.createElement('canvas');
+  c3.width = width; c3.height = height;
+  const ctx3 = c3.getContext('2d');
+  ctx3.drawImage(compressedBitmap, 0, 0);
+  const combo = await new Promise(res => c3.toBlob(res, 'image/webp', 0.75));
+  const comboKB = (combo.size / 1024).toFixed(1);
+
+  const url1 = URL.createObjectURL(bitmap);
+  const url2 = URL.createObjectURL(webp);
+
+  const pct1 = ((1 - webp.size / origSize) * 100).toFixed(0);
+  const pct2 = ((1 - combo.size / origSize) * 100).toFixed(0);
+
+  return `<h3>${file.name} (${width}×${height})</h3>
+  <table>
+    <tr><th>版本</th><th>大小</th><th>节省</th><th>预览</th></tr>
+    <tr><td>原始</td><td>${origKB} KB</td><td>—</td><td><img src="${url1}"></td></tr>
+    <tr><td>直接转 WebP</td><td>${webpKB} KB</td><td>${pct1}%</td><td><img src="${url2}"></td></tr>
+    <tr><td>压缩→WebP 二合一</td><td>${comboKB} KB</td><td>${pct2}%</td><td><img src="${URL.createObjectURL(combo)}"></td></tr>
+  </table>`;
+}
+</script>
+</body>
+</html>

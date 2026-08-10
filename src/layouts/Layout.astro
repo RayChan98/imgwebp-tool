@@ -1,0 +1,53 @@
+---
+interface Props {
+  title: string;
+  description: string;
+}
+const { title, description } = Astro.props;
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{title}</title>
+  <meta name="description" content={description}>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { font-family: system-ui, -apple-system, sans-serif; }
+  </style>
+</head>
+<body class="min-h-screen bg-white text-slate-900 antialiased">
+  <!-- ===== NAV ===== -->
+  <nav class="bg-slate-900 text-white">
+    <div class="max-w-5xl mx-auto px-5 sm:px-8 py-4 flex items-center justify-between">
+      <a href="/" class="flex items-center gap-2 font-extrabold text-lg">
+        <span class="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-sm">🖼️</span>
+        <span>ImgWebP <span class="text-blue-400">Tool</span></span>
+      </a>
+      <div class="flex items-center gap-6 text-sm font-medium text-slate-300">
+        <a href="/#tool" class="hover:text-white transition-colors">Tool</a>
+        <a href="/blog/" class="hover:text-white transition-colors">Blog</a>
+        <a href="/#why" class="hover:text-white transition-colors">Why WebP</a>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <slot />
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="bg-slate-900 text-slate-400 py-10">
+    <div class="max-w-5xl mx-auto px-5 sm:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <p class="text-sm">© {new Date().getFullYear()} ImgWebP Tool — free, private, in-browser image optimization.</p>
+      <div class="flex gap-4 text-sm">
+        <a href="/privacy/" class="hover:text-white transition-colors">Privacy</a>
+        <a href="/blog/" class="hover:text-white transition-colors">Blog</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

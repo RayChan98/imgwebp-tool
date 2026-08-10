@@ -1,0 +1,203 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+<Layout title="Compress Images to WebP — One Tool, Two Steps" description="Free online tool: compress your images and convert to WebP in one flow. 100% in-browser, files never leave your device. No signup, unlimited.">
+  <!-- ===== HERO + TOOL ===== -->
+  <section class="bg-gradient-to-b from-slate-900 to-slate-800 text-white">
+    <div class="max-w-5xl mx-auto px-5 sm:px-8 py-16 sm:py-20">
+      <p class="text-xs uppercase tracking-widest text-blue-400 mb-3">Free tool · No signup · In-browser</p>
+      <h1 class="text-4xl sm:text-5xl font-extrabold leading-tight">Compress <span class="text-blue-400">+</span> Convert to WebP</h1>
+      <p class="text-slate-300 text-lg mt-4 max-w-2xl">One flow, two steps: shrink your images, then convert them to WebP — the format Google recommends for fast, lightweight pages. Everything runs in your browser. Your files never leave your device.</p>
+
+      <!-- 二合一工具 -->
+      <div id="tool" class="mt-10 bg-white rounded-2xl shadow-2xl p-6 sm:p-8 text-slate-900">
+        <!-- Step indicator -->
+        <div class="flex items-center gap-2 text-sm font-semibold mb-6">
+          <span class="px-3 py-1 rounded-full bg-blue-600 text-white" id="step-badge">1. Upload</span>
+          <span class="text-slate-400">→</span>
+          <span class="px-3 py-1 rounded-full bg-slate-200 text-slate-500" id="step-badge2">2. Compress</span>
+          <span class="text-slate-400">→</span>
+          <span class="px-3 py-1 rounded-full bg-slate-200 text-slate-500" id="step-badge3">3. WebP</span>
+        </div>
+
+        <!-- Dropzone -->
+        <div id="dropzone" class="border-2 border-dashed border-slate-300 rounded-xl py-14 text-center cursor-pointer hover:border-blue-500 hover:bg-blue-50/50 transition-all">
+          <div class="text-4xl mb-3">🖼️</div>
+          <p class="font-semibold text-slate-700">Drag & drop images here</p>
+          <p class="text-sm text-slate-400 mt-1">or click to browse — JPG, PNG, GIF, WebP</p>
+          <p class="text-xs text-slate-300 mt-2">Multiple files supported · Processed locally</p>
+        </div>
+        <input type="file" id="file-input" accept="image/*" multiple class="hidden">
+
+        <!-- Quality controls -->
+        <div id="controls" class="hidden mt-6 space-y-4">
+          <div class="flex items-center justify-between">
+            <label class="text-sm font-semibold text-slate-700">Quality</label>
+            <span class="text-sm text-blue-600 font-bold" id="quality-value">75%</span>
+          </div>
+          <input type="range" id="quality" min="10" max="95" value="75" class="w-full accent-blue-600">
+          <div class="flex justify-between text-xs text-slate-400"><span>Smaller file</span><span>Better quality</span></div>
+        </div>
+
+        <!-- Results -->
+        <div id="results" class="mt-6 space-y-3"></div>
+
+        <!-- Download all -->
+        <div id="download-bar" class="hidden mt-6 pt-6 border-t border-slate-100">
+          <button id="download-all" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl transition-colors">
+            Download All WebP Files
+          </button>
+          <p class="text-xs text-slate-400 text-center mt-2">Files are processed locally and never uploaded.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== HOW IT WORKS ===== -->
+  <section class="bg-white py-16">
+    <div class="max-w-5xl mx-auto px-5 sm:px-8">
+      <h2 class="text-3xl font-extrabold text-slate-900 text-center">Two steps. One flow.</h2>
+      <p class="text-slate-500 text-center mt-3 max-w-2xl mx-auto">Most tools make you compress on one site, then convert on another. We combined both into a single pipeline.</p>
+      <div class="grid md:grid-cols-3 gap-8 mt-12">
+        <div class="text-center">
+          <div class="w-14 h-14 mx-auto rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center text-2xl font-bold mb-4">1</div>
+          <h3 class="font-bold text-slate-900">Upload</h3>
+          <p class="text-sm text-slate-500 mt-2">Drop as many images as you need — JPG, PNG, GIF or WebP.</p>
+        </div>
+        <div class="text-center">
+          <div class="w-14 h-14 mx-auto rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center text-2xl font-bold mb-4">2</div>
+          <h3 class="font-bold text-slate-900">Compress</h3>
+          <p class="text-sm text-slate-500 mt-2">Smart compression strips redundant data while keeping visual quality.</p>
+        </div>
+        <div class="text-center">
+          <div class="w-14 h-14 mx-auto rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center text-2xl font-bold mb-4">3</div>
+          <h3 class="font-bold text-slate-900">Convert to WebP</h3>
+          <p class="text-sm text-slate-500 mt-2">Output the modern WebP format — up to 90% smaller than the original.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== WHY WEBP ===== -->
+  <section class="bg-slate-50 py-16">
+    <div class="max-w-5xl mx-auto px-5 sm:px-8">
+      <h2 class="text-3xl font-extrabold text-slate-900 text-center">Why WebP?</h2>
+      <div class="grid md:grid-cols-3 gap-6 mt-10">
+        <div class="bg-white rounded-xl p-6 border border-slate-200">
+          <div class="text-2xl mb-2">⚡</div>
+          <h3 class="font-bold text-slate-900">Up to 90% smaller</h3>
+          <p class="text-sm text-slate-500 mt-2">WebP files are dramatically smaller than JPEG and PNG at the same visual quality.</p>
+        </div>
+        <div class="bg-white rounded-xl p-6 border border-slate-200">
+          <div class="text-2xl mb-2">📈</div>
+          <h3 class="font-bold text-slate-900">Better SEO</h3>
+          <p class="text-sm text-slate-500 mt-2">Faster pages improve Core Web Vitals — a confirmed Google ranking factor.</p>
+        </div>
+        <div class="bg-white rounded-xl p-6 border border-slate-200">
+          <div class="text-2xl mb-2">🌐</div>
+          <h3 class="font-bold text-slate-900">96% browser support</h3>
+          <p class="text-sm text-slate-500 mt-2">Chrome, Firefox, Safari, Edge — WebP works everywhere modern.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // ===== 二合一工具逻辑：上传 → 压缩 → WebP =====
+    const dropzone = document.getElementById('dropzone');
+    const fileInput = document.getElementById('file-input');
+    const results = document.getElementById('results');
+    const controls = document.getElementById('controls');
+    const qualitySlider = document.getElementById('quality');
+    const qualityValue = document.getElementById('quality-value');
+    const downloadBar = document.getElementById('download-bar');
+    const downloadAll = document.getElementById('download-all');
+
+    let processedFiles = [];
+
+    dropzone.addEventListener('click', () => fileInput.click());
+    dropzone.addEventListener('dragover', e => { e.preventDefault(); dropzone.classList.add('border-blue-500', 'bg-blue-50'); });
+    dropzone.addEventListener('dragleave', () => dropzone.classList.remove('border-blue-500', 'bg-blue-50'));
+    dropzone.addEventListener('drop', e => { e.preventDefault(); dropzone.classList.remove('border-blue-500', 'bg-blue-50'); handleFiles(e.dataTransfer.files); });
+    fileInput.addEventListener('change', e => handleFiles(e.target.files));
+
+    qualitySlider.addEventListener('input', () => {
+      qualityValue.textContent = qualitySlider.value + '%';
+      // 重新处理已上传的图片
+      if (originalFiles.length) reprocess();
+    });
+
+    let originalFiles = [];
+
+    async function handleFiles(files) {
+      for (const f of files) {
+        if (!f.type.startsWith('image/')) continue;
+        originalFiles.push(f);
+      }
+      controls.classList.remove('hidden');
+      await reprocess();
+    }
+
+    async function reprocess() {
+      results.innerHTML = '';
+      processedFiles = [];
+      document.getElementById('step-badge2').className = 'px-3 py-1 rounded-full bg-blue-600 text-white';
+      document.getElementById('step-badge3').className = 'px-3 py-1 rounded-full bg-blue-600 text-white';
+      for (const file of originalFiles) {
+        await processImage(file);
+      }
+      if (processedFiles.length) downloadBar.classList.remove('hidden');
+    }
+
+    async function processImage(file) {
+      const origKB = (file.size / 1024).toFixed(1);
+      const q = qualitySlider.value / 100;
+      try {
+        const bitmap = await createImageBitmap(file);
+        const { width, height } = bitmap;
+
+        // Step 1: 压缩（JPEG 重绘）
+        const c1 = document.createElement('canvas');
+        c1.width = width; c1.height = height;
+        c1.getContext('2d').drawImage(bitmap, 0, 0);
+        const compressed = await new Promise(r => c1.toBlob(r, 'image/jpeg', q));
+
+        // Step 2: WebP 转换
+        const c2 = document.createElement('canvas');
+        c2.width = width; c2.height = height;
+        c2.getContext('2d').drawImage(await createImageBitmap(compressed), 0, 0);
+        const webp = await new Promise(r => c2.toBlob(r, 'image/webp', q));
+
+        const webpKB = (webp.size / 1024).toFixed(1);
+        const saved = Math.round((1 - webp.size / file.size) * 100);
+        const url = URL.createObjectURL(webp);
+        const webpName = file.name.replace(/\.[^.]+$/, '') + '.webp';
+        processedFiles.push({ blob: webp, name: webpName, url });
+        // 预览图：bitmap 转 Blob（ImageBitmap 不能直接 createObjectURL）
+        const previewBlob = await new Promise(r => c1.toBlob(r, 'image/jpeg', 0.6));
+        const previewUrl = URL.createObjectURL(previewBlob);
+
+        results.innerHTML += `
+          <div class="flex items-center gap-4 p-3 rounded-xl border border-slate-200 bg-slate-50">
+            <img src="${previewUrl}" class="w-16 h-16 object-cover rounded-lg" alt="">
+            <div class="flex-1 min-w-0">
+              <p class="font-semibold text-sm text-slate-800 truncate">${file.name}</p>
+              <p class="text-xs text-slate-500">${origKB} KB → <span class="text-green-600 font-bold">${webpKB} KB</span> <span class="text-green-600">(−${saved}%)</span></p>
+            </div>
+            <a href="${url}" download="${webpName}" class="text-sm font-semibold text-blue-600 hover:text-blue-700 shrink-0">Download</a>
+          </div>`;
+      } catch (e) {
+        results.innerHTML += `<p class="text-sm text-red-500 p-2">Error processing ${file.name}: ${e.message}</p>`;
+      }
+    }
+
+    downloadAll.addEventListener('click', async () => {
+      for (const f of processedFiles) {
+        const a = document.createElement('a');
+        a.href = f.url; a.download = f.name;
+        document.body.appendChild(a); a.click(); a.remove();
+        await new Promise(r => setTimeout(r, 300));
+      }
+    });
+  </script>
+</Layout>
